@@ -30,7 +30,7 @@ export default async function UserButon() {
     <DropdownMenu>
       <DropdownMenuTrigger>
         <div className="flex items-center space-x-2">
-          <span>
+          <span className="text-base font-medium">
             {session.user.first_name} {session.user.last_name}
           </span>
           <Avatar>
@@ -41,6 +41,11 @@ export default async function UserButon() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem>Cài đặt</DropdownMenuItem>
+        {session.user.is_staff && (
+          <DropdownMenuItem>
+            <Link href={"/dashboard"}>Dashboard</Link>
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem>
           <form
             action={async () => {

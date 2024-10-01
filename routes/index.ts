@@ -1,5 +1,5 @@
-export const publicRoutes = ["/", "/auth/login", "/auth/register"];
+export const publicRoutes = ["/", "/categories"];
 
-export const authRoutes = [];
+export const authRoutes = ["/auth/login", "/auth/register"];
 
 export const DEFAULT_LOGIN_REDIRECT = "/";
