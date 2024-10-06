@@ -27,7 +27,7 @@ export const login = async (values: z.infer<typeof LoginFormSchema>) => {
           };
         default:
           return {
-            error: "Tài khoản hoặc mật khẩu không",
+            error: "Đăng nhập không thành công",
           };
       }
     }

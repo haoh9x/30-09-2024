@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 import {
   Card,
@@ -17,6 +18,7 @@ interface CardWrapperProps {
   children: React.ReactNode;
   backButtonHref: string;
   backButtonLabel: string;
+  className?: string;
 }
 
 export const CardWrapper = ({
@@ -25,14 +27,18 @@ export const CardWrapper = ({
   children,
   backButtonHref,
   backButtonLabel,
+  className,
 }: CardWrapperProps) => {
   return (
-    <Card className="w-[400px]">
+    <Card className={cn("w-[380px]", className)}>
       <CardHeader className="items-center">
         <CardTitle>{headerTitle}</CardTitle>
         <CardDescription>{headerDescription}</CardDescription>
       </CardHeader>
       <CardContent>{children}</CardContent>
+      <CardContent className="flex items-center justify-center">
+        <span className="text-sm text-gray-500">hoặc</span>
+      </CardContent>
       <CardFooter>
         <Social />
       </CardFooter>

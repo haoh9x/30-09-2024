@@ -4,6 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
+import { useTransition } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,10 +19,12 @@ import { Input } from "@/components/ui/input";
 
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { LoginFormSchema } from "@/schemas";
-import { startTransition } from "react";
 import { login } from "@/actions/login";
+import { Spinner } from "@/components/common/spinner";
 
 export const LoginForm = () => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     resolver: zodResolver(LoginFormSchema),
     defaultValues: {
@@ -33,11 +36,7 @@ export const LoginForm = () => {
   const onSubmit = async (values: z.infer<typeof LoginFormSchema>) => {
     startTransition(() => {
       login(values).then((data) => {
-        if (data?.error) {
-          toast.error(data.error);
-        } else {
-          toast.success("Đăng nhập thành công");
-        }
+        console.log(data);
       });
     });
   };
@@ -48,7 +47,7 @@ export const LoginForm = () => {
         headerTitle="Đăng nhập"
         headerDescription="Chào mừng trở lại"
         backButtonLabel="Bạn chưa có tài khoản? Đăng ký"
-        backButtonHref="/dang-ky"
+        backButtonHref="/auth/register"
       >
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -63,6 +62,7 @@ export const LoginForm = () => {
                       placeholder="nguyenvana@example.com"
                       {...field}
                       type="email"
+                      disabled={isPending}
                     />
                   </FormControl>
                   <FormMessage />
@@ -76,14 +76,19 @@ export const LoginForm = () => {
                 <FormItem>
                   <FormLabel>Mật khẩu</FormLabel>
                   <FormControl>
-                    <Input placeholder="********" {...field} type="password" />
+                    <Input
+                      placeholder="********"
+                      {...field}
+                      type="password"
+                      disabled={isPending}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button className="w-full" type="submit">
-              Đăng nhập
+            <Button className="w-full" type="submit" disabled={isPending}>
+              {isPending && <Spinner />}Đăng nhập
             </Button>
           </form>
         </Form>

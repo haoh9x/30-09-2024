@@ -11,3 +11,17 @@ export const axiosInstance = axios.create({
     accept: "application/json",
   },
 });
+
+axiosInstance.interceptors.request.use(
+  async function (config) {
+    const session = await auth();
+
+    if (session?.user?.access) {
+      config.headers.Authorization = `Bearer ${session?.user?.access}`;
+    }
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  }
+);
